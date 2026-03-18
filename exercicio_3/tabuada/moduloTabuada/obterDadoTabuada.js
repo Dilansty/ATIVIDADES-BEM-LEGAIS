@@ -1,17 +1,17 @@
 /***********************************************************************
-  * Objetivo: Aplicação para obter os dados do usuário
-  * data: 15/03/2026
+  * Objetivo: Aplicação para obter os dados para cálculo da tabuada
+  * data: 05/03/2026
   * Autor: Allan de Sousa Almeida
   * Versão: 1.0
  ***********************************************************************/
  
+// importa o arquivo que contém a função de calcular a tabuada
+const calcularTabuada = require('./calcularTabuada')
+ 
 // importa o módulo nativo do Node.js para leitura de dados no terminal
 const readline = require('readline')
  
-// importa o arquivo que contém a função de calcular pares e ímpares
-const calcularParesImpares = require('./calcularParesImpares')
- 
-// função responsável por obter e tratar os dados do usuário
+// função responsável por obter e tratar os dados da tabuada
 function obterDados() {
  
   // cria a interface de leitura conectando a entrada (teclado) e saída (console)
@@ -20,102 +20,145 @@ function obterDados() {
     output: process.stdout
   })
  
-  // solicita o número inicial ao usuário
-  entradaDeDados.question('Digite o numero inicial (0 ate 500): ', function (entradaInicial) {
+  // solicita a tabuada inicial ao usuário
+  entradaDeDados.question('Digite a tabuada inicial (2 a 100): ', function (entradaTabuadaInicial) {
  
-    // validação: verifica se o campo do número inicial está vazio
-    if (entradaInicial == '') {
-      console.log('ERRO: O numero inicial nao pode ser vazio')
+    // validação: verifica se o campo está vazio
+    if (entradaTabuadaInicial == '') {
+      console.log('***A tabuada inicial nao pode ser vazia***')
       entradaDeDados.close()
       return
     }
  
-    // validação: verifica se o número inicial contém apenas números
-    if (isNaN(entradaInicial)) {
-      console.log('ERRO: Digite apenas numeros no campo inicial')
+    // validação: verifica se o valor digitado é um número
+    if (isNaN(entradaTabuadaInicial)) {
+      console.log('***Digite apenas numeros na tabuada inicial***')
       entradaDeDados.close()
       return
     }
  
-    // converte o número inicial para inteiro
-    let numeroInicial = parseInt(entradaInicial)
+    // converte a tabuada inicial para número inteiro
+    let tabuadaInicial = parseInt(entradaTabuadaInicial)
  
-    // validação: número inicial deve estar entre 0 e 500
-    if (numeroInicial < 0 || numeroInicial > 500) {
-      console.log('ERRO: O numero inicial deve estar entre 0 e 500')
+    // validação: tabuada inicial deve estar entre 2 e 100
+    if (tabuadaInicial < 2 || tabuadaInicial > 100) {
+      console.log('***A tabuada inicial deve estar entre 2 e 100***')
       entradaDeDados.close()
       return
     }
  
-    // solicita o número final ao usuário
-    entradaDeDados.question('Digite o numero final (100 ate 1000): ', function (entradaFinal) {
+    // solicita a tabuada final ao usuário
+    entradaDeDados.question('Digite a tabuada final (2 a 100): ', function (entradaTabuadaFinal) {
  
-      // validação: verifica se o campo do número final está vazio
-      if (entradaFinal == '') {
-        console.log('ERRO: O numero final nao pode ser vazio')
+      // validação: verifica se o campo está vazio
+      if (entradaTabuadaFinal == '') {
+        console.log('***A tabuada final nao pode ser vazia***')
         entradaDeDados.close()
         return
       }
  
-      // validação: verifica se o número final contém apenas números
-      if (isNaN(entradaFinal)) {
-        console.log('ERRO: Digite apenas numeros no campo final')
+      // validação: verifica se o valor digitado é um número
+      if (isNaN(entradaTabuadaFinal)) {
+        console.log('***Digite apenas numeros na tabuada final***')
         entradaDeDados.close()
         return
       }
  
-      // converte o número final para inteiro
-      let numeroFinal = parseInt(entradaFinal)
+      // converte a tabuada final para número inteiro
+      let tabuadaFinal = parseInt(entradaTabuadaFinal)
  
-      // validação: número final deve estar entre 100 e 1000
-      if (numeroFinal < 100 || numeroFinal > 1000) {
-        console.log('ERRO: O numero final deve estar entre 100 e 1000')
+      // validação: tabuada final deve estar entre 2 e 100
+      if (tabuadaFinal < 2 || tabuadaFinal > 100) {
+        console.log('***A tabuada final deve estar entre 2 e 100***')
         entradaDeDados.close()
         return
       }
  
-      // validação: número inicial não pode ser maior que o número final
-      if (numeroInicial > numeroFinal) {
-        console.log('ERRO: O numero inicial nao pode ser maior que o numero final')
+      // validação: tabuada inicial não pode ser maior que a tabuada final
+      if (tabuadaInicial > tabuadaFinal) {
+        console.log('***A tabuada inicial nao pode ser maior que a tabuada final***')
         entradaDeDados.close()
         return
       }
  
-      // validação: os dois números não podem ser iguais
-      if (numeroInicial == numeroFinal) {
-        console.log('ERRO: O numero inicial e o numero final nao podem ser iguais')
-        entradaDeDados.close()
-        return
-      }
+      // solicita o multiplicador inicial ao usuário
+      entradaDeDados.question('Digite o multiplicador inicial (1 a 50): ', function (entradaMultiplicadorInicial) {
  
-      // chama a função de cálculo passando os dois números validados
-      let { pares, impares } = calcularParesImpares.calcularParesImpares(numeroInicial, numeroFinal)
+        // validação: verifica se o campo está vazio
+        if (entradaMultiplicadorInicial == '') {
+          console.log('***O multiplicador inicial nao pode ser vazio***')
+          entradaDeDados.close()
+          return
+        }
  
-      // exibe a lista de números pares
-      console.log('\nLista de numeros Pares')
-      for (let i = 0; i < pares.length; i++) {
-        console.log(pares[i]) // imprime cada número par
-      }
-      console.log('Qtde de numeros encontrados: ' + pares.length)
+        // validação: verifica se o valor digitado é um número
+        if (isNaN(entradaMultiplicadorInicial)) {
+          console.log('***Digite apenas numeros no multiplicador inicial***')
+          entradaDeDados.close()
+          return
+        }
  
-      // exibe a lista de números ímpares
-      console.log('\nLista de numeros Impares')
-      for (let i = 0; i < impares.length; i++) {
-        console.log(impares[i]) // imprime cada número ímpar
-      }
-      console.log('Qtde de numeros encontrados: ' + impares.length)
+        // converte o multiplicador inicial para número inteiro
+        let multiplicadorInicial = parseInt(entradaMultiplicadorInicial)
  
-      // encerra a interface de leitura após exibir os resultados
-      entradaDeDados.close()
+        // validação: multiplicador inicial deve estar entre 1 e 50
+        if (multiplicadorInicial < 1 || multiplicadorInicial > 50) {
+          console.log('***O multiplicador inicial deve estar entre 1 e 50***')
+          entradaDeDados.close()
+          return
+        }
  
-    }) // fim da question do número final
+        // solicita o multiplicador final ao usuário
+        entradaDeDados.question('Digite o multiplicador final (1 a 50): ', function (entradaMultiplicadorFinal) {
  
-  }) // fim da question do número inicial
+          // validação: verifica se o campo está vazio
+          if (entradaMultiplicadorFinal == '') {
+            console.log('***O multiplicador final nao pode ser vazio***')
+            entradaDeDados.close()
+            return
+          }
  
-}
+          // validação: verifica se o valor digitado é um número
+          if (isNaN(entradaMultiplicadorFinal)) {
+            console.log('***Digite apenas numeros no multiplicador final***')
+            entradaDeDados.close()
+            return
+          }
+ 
+          // converte o multiplicador final para número inteiro
+          let multiplicadorFinal = parseInt(entradaMultiplicadorFinal)
+ 
+          // validação: multiplicador final deve estar entre 1 e 50
+          if (multiplicadorFinal < 1 || multiplicadorFinal > 50) {
+            console.log('***O multiplicador final deve estar entre 1 e 50***')
+            entradaDeDados.close()
+            return
+          }
+ 
+          // validação: multiplicador inicial não pode ser maior que o multiplicador final
+          if (multiplicadorInicial > multiplicadorFinal) {
+            console.log('***O multiplicador inicial nao pode ser maior que o multiplicador final***')
+            entradaDeDados.close()
+            return
+          }
+ 
+          // chama a função de cálculo passando os 4 valores validados
+          calcularTabuada.calcularTabuada(tabuadaInicial, tabuadaFinal, multiplicadorInicial, multiplicadorFinal)
+ 
+          // encerra a interface de leitura após exibir os resultados
+          entradaDeDados.close()
+ 
+        }) // fim da question multiplicador final
+ 
+      }) // fim da question multiplicador inicial
+ 
+    }) // fim da question tabuada final
+ 
+  }) // fim da question tabuada inicial
+ 
+} // fim da função obterDados
  
 // exporta a função para que o app.js possa utilizá-la
 module.exports = {
   obterDados
 }
- 

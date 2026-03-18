@@ -9,7 +9,7 @@
 let calculadorDeMedia = require('./moduloMediaEscolar/obterDadosMediaEscolar')
 
 
-
+//chama a função do obterdados para iniciar o programa
     calculadorDeMedia.obterDados()
 
 
